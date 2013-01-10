@@ -3,4 +3,5 @@
 *.zip
 *.suo
 *.*~
-Pomodoing/Pomodoing/bin/*
+Pomodoing/Pomodoing/bin/
+Pomodoing/Pomodoing/obj/
