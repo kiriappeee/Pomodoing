@@ -1,3 +1,5 @@
 *.exe
 *.svg
 *.zip
+*.suo
+Pomodoing/Pomodoing/bin/*

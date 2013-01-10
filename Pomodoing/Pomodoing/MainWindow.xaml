@@ -4,7 +4,23 @@
 	x:Class="Pomodoing.MainWindow"
 	x:Name="Window"
 	Title="Pomodoing"
-	Width="800" Height="500">
+	Width="800" Height="500" >
+	<Window.Resources>
+		<Storyboard x:Key="settingsOpen">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="imgSettings">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="90"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="settingsClose">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="imgSettings">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</Window.Resources>
+
+	<Window.Triggers>
+		
+	</Window.Triggers>
 
 	<Grid x:Name="LayoutRoot" TextElement.FontFamily="Lucida Grande" TextElement.FontSize="11.5">
 		<Grid.RowDefinitions>
@@ -24,8 +40,17 @@
 			<Label  Content="Pomodoing. Doing things smarter" VerticalAlignment="Center" FontStyle="Italic" FontFamily="Meiryo UI" FontSize="12"/>
 		</StackPanel>
 		
-		<Button Background="Transparent" Height="35" Width="35" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,5,2">
-			<Image Source="/Pomodoing;component/Resources/settings.png" />
+		<Button Name="btnSettings" Background="Transparent" Height="35" Width="35" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,5,2">
+			<Image x:Name="imgSettings" Source="/Pomodoing;component/Resources/settings.png" RenderTransformOrigin="0.5,0.5" >
+				<Image.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</Image.RenderTransform>
+			</Image>
 		</Button>
 		<!--row 2 column 1 is where the timer shall go. Split it into three-->
 		<Border Grid.Column="0" Grid.Row="1" Margin="4" BorderBrush="#FF232A3F" BorderThickness="1.5" CornerRadius="15">
@@ -36,18 +61,19 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			
-			<Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Content="25" Foreground="#FF232A3F"  />
-			<Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Content=":" Padding="0" Foreground="#FF232A3F" />
-			<Label Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Content="00" Foreground="#FF232A3F" />
+			<Label Name="lblMinutes" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Content="25" Foreground="#FF253156"  />
+			<Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Content=":" Padding="0" Foreground="#FF253156" />
+			<Label Name="lblSeconds" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Content="00" Foreground="#FF253156" />
 		</Grid>
 		</Border>
 		
 		<StackPanel Grid.Column="0" Grid.Row="2" Margin="4">
 			<DockPanel LastChildFill="True">
+				<Label Name="lblDistractions_Current" DockPanel.Dock="Right" VerticalAlignment="Top" FontSize="12" Content="0" Foreground="#FF253156" />
 				<Button DockPanel.Dock="Right" Margin="4,10,4,4" Height="40" Background="White"  Width="40" FontSize="30" Foreground="#FF232A3F">
-					<Image Source="/Pomodoing;component/Resources/distract.png"/>
+					<Image Name="btnDistracted" Source="/Pomodoing;component/Resources/distract.png"/>					
 				</Button>
-				<Button DockPanel.Dock="Left" Content="Start/Stop" Margin="4,10,10,4" Height="40" Background="White" Foreground="#FF232A3F"/>
+				<Button Name="btnStartStop" DockPanel.Dock="Left" Content="Start/Stop" Margin="4,10,10,4" Height="40" Background="Transparent" Foreground="#FF3A495A" Click="btnStartStop_Click"/>
 			</DockPanel>
 			
 			<Grid Height="Auto" Margin="4">
@@ -58,8 +84,8 @@
 					
 				</Grid.ColumnDefinitions>				
 				
-				<Button Grid.Column="0" Content="+5 Short break" Height="40" Margin="0,5,5,5" Background="Transparent"/>
-				<Button Grid.Column="1" Content="+15 Short break" Height="40" Margin="5,5,0,5" Background="Transparent"/>
+				<Button Name="btnShortBreak" Grid.Column="0" Content="+5 Short break" Height="40" Margin="0,5,5,5" Background="Transparent" Foreground="#FF3A495A"/>
+				<Button Name="btnLongBreak" Grid.Column="1" Content="+15 Long break" Height="40" Margin="5,5,0,5" Background="Transparent" Foreground="#FF3A495A"/>
 			</Grid>
 			
 		</StackPanel>
@@ -69,18 +95,18 @@
 		
 		<StackPanel Grid.Column="1" Grid.Row="1" Margin="4" Orientation="Vertical" TextBlock.FontSize="22" TextBlock.FontFamily="Meiryo">
 			<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Height="Auto">
-				<Label Content="Pomodoros Completed:" Margin="4"/>
-				<Label Content="0" Margin="0,4,0,4"/>
+				<Label Content="Pomodoros Completed:" Margin="4" Foreground="#FF3A495A"/>
+				<Label Name="lblCompletedPomodoros" Content="0" Margin="0,4,0,4" Foreground="#FF3A495A"/>
 			</StackPanel>
 			
 			<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Height="Auto">
-				<Label Content="Breaks: " Margin="4"/>
-				<Label Content="0" Margin="0,4,0,4"/>
+				<Label Content="Breaks: " Margin="4" Foreground="#FF3A495A"/>
+				<Label Name="lblBreaks" Content="0" Margin="0,4,0,4" Foreground="#FF3A495A"/>
 			</StackPanel>
 			
 			<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Height="Auto">
-				<Label Content="Avg Distractions/Pomodoro: " Margin="4"/>
-				<Label Content="0" Margin="0,4,0,4"/>
+				<Label Content="Avg Distractions/Pomodoro: " Margin="4" Foreground="#FF3A495A"/>
+				<Label Name="lblPomodoroDistractions" Content="0" Margin="0,4,0,4" Foreground="#FF3A495A"/>
 			</StackPanel>
 		</StackPanel>
 		
@@ -91,7 +117,7 @@
 				<Image Source="/Pomodoing;component/Resources/list.png" />
 			</Button>
 			
-			<ListBox DockPanel.Dock="Left" Margin="4">
+			<ListBox DockPanel.Dock="Left" Margin="4" Foreground="#FF3A495A">
 				<ListBoxItem Content="ToDo 1" />
 				<ListBoxItem Content="ToDo 2" />
 				<ListBoxItem Content="ToDo 3" />
